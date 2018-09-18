@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { compose,bindActionCreators } from 'redux';
-import { setPosts } from '../Actions';
+import { setPosts, updatePost } from '../Actions';
 import '../App.css';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -11,8 +11,10 @@ import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import CommentIcon from '@material-ui/icons/Comment'
 import Badge from '@material-ui/core/Badge';
-
+import * as LeituraAPI from '../Utils/api'
 const styles = theme => ({
   card: {
      border: `2px solid ${
@@ -49,18 +51,19 @@ const styles = theme => ({
 class ListPosts extends Component {
   
   render() {
-  	const { classes, posts } = this.props;
+  	const { classes, posts, upVote } = this.props;
    
     //const { posts } = this.state;
-    console.log(posts);
-    return (
+      return (
       
       posts.map((post)=> (
        <Card key={post.id} className={classes.card}>
         <CardContent>
-          <Typography className={classes.title}>
-            {post.title}
-          </Typography>
+          <Badge badgeContent={post.voteScore} color="primary" classes={{ badge: classes.badge }}>
+            <Typography className={classes.title}>
+              {post.title}
+            </Typography>
+          </Badge>
           <Typography className={classes.autor}>
             por {post.author}
           </Typography>
@@ -69,10 +72,15 @@ class ListPosts extends Component {
           </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
-          
-          <IconButton aria-label="Like">
-            <Badge badgeContent={post.voteScore} color="primary" classes={{ badge: classes.badge }}>
+          <IconButton aria-label="Dislike">
+            <ThumbDownIcon/>
+          </IconButton>
+          <IconButton aria-label="Like" onClick={() => upVote(post.id)} >
             	<ThumbUpIcon />
+          </IconButton>
+          <IconButton aria-label="Comment">
+            <Badge badgeContent={post.commentCount} color="primary" classes={{badge: classes.badge}}>
+              <CommentIcon/>
             </Badge>
           </IconButton>
         </CardActions>
@@ -83,10 +91,10 @@ class ListPosts extends Component {
   }
 }
 const mapStateToProps = store => ({
-  posts: store.setPosts.posts,
+  posts: store.updatePost.posts,
 });
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ setPosts }, dispatch);
+  bindActionCreators({ updatePost }, dispatch);
 export default compose(
   withStyles(styles, {
     name: 'ListPosts',

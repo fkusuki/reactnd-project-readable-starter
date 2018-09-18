@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { compose,bindActionCreators } from 'redux';
-import { setPosts } from '../Actions';
+import { setPosts, updatePost } from '../Actions';
 import * as LeituraAPI from '../Utils/api'
 import LeituraAppBar from './LeituraAppBar'
 import ListPosts from './ListPosts'
@@ -27,7 +27,7 @@ class App extends Component {
   state = {
   	categories:[],
   	posts:[],
-  }
+    }
 
   async componentDidMount() {
     const posts = await LeituraAPI.getAllPosts()
@@ -35,7 +35,15 @@ class App extends Component {
     
     this.setState({ posts, categories })
   }
+  upVote = async (id) => {
+    
+    const novoPost = await LeituraAPI.upVote(id);
+    //console.log(arrposts);
+    const { updatePost, posts } = this.props;
+    
+    updatePost(novoPost);
 
+  }
    render() {
   	const { classes, setPosts} = this.props;
     
@@ -50,7 +58,7 @@ class App extends Component {
          <Grid item xs={4} >
          </Grid>
           <Grid item xs={4} >
-              <ListPosts />
+              <ListPosts upVote={this.upVote} />
            </Grid>
         </Grid>
        </div>
@@ -62,7 +70,7 @@ const mapStateToProps = store => ({
   posts: store.posts,
 });
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ setPosts }, dispatch);
+  bindActionCreators({ setPosts, updatePost }, dispatch);
 export default compose(
   withStyles(styles, {
     name: 'App',
