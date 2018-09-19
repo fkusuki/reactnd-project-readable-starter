@@ -5,7 +5,9 @@ const initialState = {
 };
 
 export const postReducer = (state = initialState, action) => {
+  const { posts } = state
   
+
   switch (action.type) {
     case SET_POSTS:
        return {
@@ -14,17 +16,16 @@ export const postReducer = (state = initialState, action) => {
       }
     case UPDATE_POST:
   //  console.log(state);
-   
-        let list = state.posts;
-        list.forEach((element, index) => {
+        posts.forEach((element, index) => {
           if(element.id === action.newPost.id) {
-            list[index] = action.newPost;
+            posts[index] = action.newPost;
           }
-        })        
-        return {
-          ...state,
-          posts: list,
-        }
+        })
+        return Object.assign({}, state, {
+          posts
+        })
+                
+        
     default:
       return state;
   }

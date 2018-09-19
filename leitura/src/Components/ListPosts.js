@@ -49,11 +49,20 @@ const styles = theme => ({
 });
 
 class ListPosts extends Component {
-  
-  render() {
-  	const { classes, posts, upVote } = this.props;
    
-    //const { posts } = this.state;
+   upVote = async (id) => {
+        
+    const novoPost = await LeituraAPI.upVote(id);
+    
+    const { updatePost } = this.props;
+    
+    updatePost(novoPost);
+
+    
+  }
+  render() {
+  	const { classes, posts } = this.props;
+    
       return (
       
       posts.map((post)=> (
@@ -75,7 +84,7 @@ class ListPosts extends Component {
           <IconButton aria-label="Dislike">
             <ThumbDownIcon/>
           </IconButton>
-          <IconButton aria-label="Like" onClick={() => upVote(post.id)} >
+          <IconButton aria-label="Like" onClick={() => this.upVote(post.id)} >
             	<ThumbUpIcon />
           </IconButton>
           <IconButton aria-label="Comment">

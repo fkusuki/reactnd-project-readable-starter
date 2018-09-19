@@ -32,24 +32,18 @@ class App extends Component {
   async componentDidMount() {
     const posts = await LeituraAPI.getAllPosts()
     const categories = await LeituraAPI.getAllCategories()
-    
-    this.setState({ posts, categories })
-  }
-  upVote = async (id) => {
-    
-    const novoPost = await LeituraAPI.upVote(id);
-    //console.log(arrposts);
-    const { updatePost, posts } = this.props;
-    
-    updatePost(novoPost);
+    const { setPosts } = this.props;
+    //this.setState({ posts, categories })
 
-  }
-   render() {
-  	const { classes, setPosts} = this.props;
-    
-    const { posts } = this.state;
-    
     setPosts(posts);
+  }
+
+   render() {
+  	const { classes, setPosts, posts} = this.props;
+    
+  //  const { posts } = this.state;
+    
+   // setPosts(posts);
     return (
       <div className="App">
        <LeituraAppBar />
@@ -58,7 +52,7 @@ class App extends Component {
          <Grid item xs={4} >
          </Grid>
           <Grid item xs={4} >
-              <ListPosts upVote={this.upVote} />
+              <ListPosts  />
            </Grid>
         </Grid>
        </div>
