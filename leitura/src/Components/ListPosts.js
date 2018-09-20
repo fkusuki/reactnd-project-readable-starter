@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { compose,bindActionCreators } from 'redux';
-import { setPosts, updatePost } from '../Actions';
+import { updatePost } from '../Actions';
 import '../App.css';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
@@ -50,9 +49,9 @@ const styles = theme => ({
 
 class ListPosts extends Component {
    
-   upVote = async (id) => {
+   votePost = async (id, tipo) => {
         
-    const novoPost = await LeituraAPI.upVote(id);
+    const novoPost = await LeituraAPI.votePost(id,tipo);
     
     const { updatePost } = this.props;
     
@@ -81,10 +80,10 @@ class ListPosts extends Component {
           </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
-          <IconButton aria-label="Dislike">
+          <IconButton aria-label="Dislike" onClick={() => this.votePost(post.id,'downVote')}>
             <ThumbDownIcon/>
           </IconButton>
-          <IconButton aria-label="Like" onClick={() => this.upVote(post.id)} >
+          <IconButton aria-label="Like" onClick={() => this.votePost(post.id,'upVote')} >
             	<ThumbUpIcon />
           </IconButton>
           <IconButton aria-label="Comment">

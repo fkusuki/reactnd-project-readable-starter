@@ -15,16 +15,10 @@ export const postReducer = (state = initialState, action) => {
          posts: action.posts,
       }
     case UPDATE_POST:
-  //  console.log(state);
-        posts.forEach((element, index) => {
-          if(element.id === action.newPost.id) {
-            posts[index] = action.newPost;
-          }
-        })
-        return Object.assign({}, state, {
-          posts
-        })
-                
+      return {
+          ...state,
+          posts:posts.map(post => (action.newPost.id === post.id ? action.newPost : post)),
+      }              
         
     default:
       return state;
