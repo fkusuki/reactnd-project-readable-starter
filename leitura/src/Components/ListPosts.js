@@ -13,7 +13,8 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import CommentIcon from '@material-ui/icons/Comment'
 import Badge from '@material-ui/core/Badge';
-import * as LeituraAPI from '../Utils/api'
+import * as LeituraAPI from '../Utils/api';
+import sortBy from 'sort-by'; 
 const styles = theme => ({
   card: {
      border: `2px solid ${
@@ -60,11 +61,13 @@ class ListPosts extends Component {
     
   }
   render() {
-  	const { classes, posts } = this.props;
-    
+  	const { classes, posts, ordem } = this.props;
+    const showingPosts = ordem === 'Ordenar por data'
+          ? posts.sort(sortBy('timestamp'))
+        : posts.sort(sortBy('-voteScore'));
       return (
       
-      posts.map((post)=> (
+      showingPosts.map((post)=> (
        <Card key={post.id} className={classes.card}>
         <CardContent>
           <Badge badgeContent={post.voteScore} color="primary" classes={{ badge: classes.badge }}>
@@ -100,6 +103,7 @@ class ListPosts extends Component {
 }
 const mapStateToProps = store => ({
   posts: store.updatePost.posts,
+  ordem: store.setOrderList.ordem,
 });
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ updatePost }, dispatch);

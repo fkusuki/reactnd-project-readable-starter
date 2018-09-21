@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { compose,bindActionCreators } from 'redux';
-import { setPosts, updatePost } from '../Actions';
+import { setPosts, setOrderList } from '../Actions';
 import * as LeituraAPI from '../Utils/api'
 import LeituraAppBar from './LeituraAppBar'
 import ListPosts from './ListPosts'
@@ -39,14 +39,16 @@ class App extends Component {
   	categories:[],
   	posts:[],
     anchorEl:null,
-    opcao:null,
+    
     }
   handleClick = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
   handleClose = (opcao) => {
-    this.setState({ anchorEl: null, opcao });
+    this.setState({ anchorEl: null });
+    const { setOrderList } = this.props;
+    setOrderList(opcao);
     
   };
   renderRedirect = () => {
@@ -116,9 +118,10 @@ class App extends Component {
 }
 const mapStateToProps = store => ({
   posts: store.posts,
+  ordem: store.ordem,
 });
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ setPosts, updatePost }, dispatch);
+  bindActionCreators({ setPosts, setOrderList }, dispatch);
 export default compose(
   withStyles(styles, {
     name: 'App',
