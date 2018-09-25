@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { compose,bindActionCreators } from 'redux';
-import { setPosts, setOrderList } from '../Actions';
-import * as LeituraAPI from '../Utils/api'
-import LeituraAppBar from './LeituraAppBar'
+import { setPosts, setCategories, setOrderList } from '../Actions';
+import * as LeituraAPI from '../Utils/api';
+import LeituraAppBar from './LeituraAppBar';
+import CategoriesChipBar from './CategoriesChipBar';
 import ListPosts from './ListPosts'
 import '../App.css';
 import { withStyles } from '@material-ui/core/styles';
@@ -36,8 +37,6 @@ const ITEM_HEIGHT = 48;
 
 class App extends Component {
   state = {
-  	categories:[],
-  	posts:[],
     anchorEl:null,
     
     }
@@ -58,9 +57,10 @@ class App extends Component {
   };
   async componentDidMount() {
     const posts = await LeituraAPI.getAllPosts()
-    //const categories = await LeituraAPI.getAllCategories()
-    const { setPosts } = this.props;
+    const categories = await LeituraAPI.getAllCategories()
+    const { setPosts, setCategories } = this.props;
     setPosts(posts);
+    setCategories(categories);
   }
 
    render() {
@@ -71,6 +71,7 @@ class App extends Component {
       <div className="App">
       {this.renderRedirect()}
        <LeituraAppBar />
+       <CategoriesChipBar />
        <div className={classes.root}>
         <Grid container spacing={24} >
          <Grid item xs={4} >
@@ -119,9 +120,10 @@ class App extends Component {
 const mapStateToProps = store => ({
   posts: store.posts,
   ordem: store.ordem,
+  categories: store.setCategories.categories,
 });
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ setPosts, setOrderList }, dispatch);
+  bindActionCreators({ setPosts, setOrderList,setCategories }, dispatch);
 export default compose(
   withStyles(styles, {
     name: 'App',

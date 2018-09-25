@@ -1,4 +1,4 @@
-import { SET_POSTS, UPDATE_POST, SET_ORDER_LIST } from './actionTypes';
+import { SET_POSTS, UPDATE_POST, SET_ORDER_LIST, SET_CATEGORIES } from './actionTypes';
 
 export const setPosts = arrPosts => ({
 	type: SET_POSTS,
@@ -14,3 +14,8 @@ export const setOrderList = ordem => ({
 	type: SET_ORDER_LIST,
 	ordem
 })
+
+export const setCategories = arrCategories => ({
+	type: SET_CATEGORIES,
+	categories: arrCategories
+});

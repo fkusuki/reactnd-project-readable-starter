@@ -5,14 +5,15 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1,
   },
-};
+});
 
 function LeituraAppBar(props) {
   const { classes } = props;
+  
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
@@ -23,6 +24,7 @@ function LeituraAppBar(props) {
         </Toolbar>
       </AppBar>
     </div>
+  
   );
 }
 

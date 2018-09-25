@@ -21,7 +21,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import SendIcon from '@material-ui/icons/Send';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/DeleteSharp'
 import FavoriteIcon from '@material-ui/icons/Favorite';
 const styles = theme => ({
   card: {
@@ -134,10 +135,17 @@ class ListPosts extends Component {
         >
 			<MenuItem className={classes.menuItem}>
 				<ListItemIcon className={classes.icon}>
-					<SendIcon />
+					<EditIcon />
 				</ListItemIcon>
-				<ListItemText classes={{ primary: classes.primary }} inset primary="Sent mail" />
+				<ListItemText classes={{ primary: classes.primary }} inset primary="Editar Post" />
 			</MenuItem>
+      <MenuItem className={classes.menuItem}>
+        <ListItemIcon className={classes.icon}>
+          <DeleteIcon />
+        </ListItemIcon>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Deletar Post" />
+      </MenuItem>
+
         </Menu>
           <Typography className={classes.corpo}>
             {post.body}
